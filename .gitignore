@@ -1,0 +1,20 @@
+dist/
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+
+# Secrets and local notes stay off GitHub.
+.env*
+*.pem
+*.key
+*credentials*
+client_secret*.json
+*token*.json
+.mcp.json
+*.mcp.json
+.mcp.local.json
+.planning/
+STATE.md
+CLAUDE.md
+AGENTS.md

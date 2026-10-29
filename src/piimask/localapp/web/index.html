@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title data-i18n="title"></title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top-row">
+    <h1 id="page-title" data-i18n="title"></h1>
+    <div class="lang" role="group" id="lang-group" data-i18n-aria="lang_switch_label">
+      <button type="button" id="lang-en" data-lang="en" data-i18n="lang_en"></button>
+      <button type="button" id="lang-nl" data-lang="nl" data-i18n="lang_nl"></button>
+    </div>
+  </div>
+  <p id="honest" class="honest" data-i18n="honest"></p>
+  <p id="loading" class="status" data-i18n="loading"></p>
+  <p id="notice-stopped" class="notice notice-bad" role="alert" data-i18n="stopped" hidden></p>
+  <p id="notice-log" class="notice notice-bad" role="alert" data-i18n="log_broken" hidden></p>
+  <p id="notice-counter" class="notice" role="status" data-i18n="counter_reset" hidden></p>
+</header>
+
+<main id="app" hidden>
+  <section id="step1" class="step" aria-labelledby="step1-title">
+    <h2 id="step1-title" data-i18n="step1_title"></h2>
+    <p class="hint" data-i18n="step1_hint"></p>
+    <label for="prompt-input" class="label" data-i18n="prompt_label"></label>
+    <textarea id="prompt-input" rows="7" spellcheck="false"></textarea>
+    <div class="row">
+      <button type="button" id="mask-btn" class="primary" data-i18n="mask_btn"></button>
+    </div>
+    <div id="step1-msg" class="msgs" role="status"></div>
+  </section>
+
+  <section id="step2" class="step" aria-labelledby="step2-title" hidden>
+    <h2 id="step2-title" data-i18n="step2_title"></h2>
+    <p class="hint" data-i18n="step2_hint"></p>
+    <p class="label" id="masked-label" data-i18n="masked_label"></p>
+    <div id="masked-text" class="textbox" aria-labelledby="masked-label"></div>
+    <div class="row">
+      <button type="button" id="copy-btn" class="primary" data-i18n="copy_btn"></button>
+    </div>
+    <p id="copy-status" class="status" role="status"></p>
+    <div id="legend" class="legend" aria-labelledby="legend-label">
+      <span id="legend-label" class="label" data-i18n="legend_label"></span>
+      <ul id="legend-list"></ul>
+    </div>
+
+    <h3 data-i18n="original_title"></h3>
+    <p class="hint" data-i18n="original_hint"></p>
+    <div id="original-text" class="textbox selectable"></div>
+    <div class="row">
+      <label for="miss-kind" class="label-inline" data-i18n="miss_kind_label"></label>
+      <select id="miss-kind">
+        <option value="PERSON" data-i18n="kind_PERSON"></option>
+        <option value="COMPANY" data-i18n="kind_COMPANY"></option>
+        <option value="EMAIL" data-i18n="kind_EMAIL"></option>
+        <option value="PHONE" data-i18n="kind_PHONE"></option>
+        <option value="IBAN" data-i18n="kind_IBAN"></option>
+        <option value="VAT" data-i18n="kind_VAT"></option>
+        <option value="ADDRESS" data-i18n="kind_ADDRESS"></option>
+        <option value="OTHER" data-i18n="kind_OTHER"></option>
+      </select>
+      <button type="button" id="miss-btn" data-i18n="miss_btn"></button>
+    </div>
+    <p id="miss-msg" class="msg" role="status"></p>
+
+    <div id="overmask-panel" class="panel" hidden>
+      <p id="overmask-piece"></p>
+      <label class="tick"><input type="checkbox" id="overmask-confirm"> <span data-i18n="overmask_confirm"></span></label>
+      <div class="row">
+        <button type="button" id="overmask-btn" data-i18n="overmask_btn"></button>
+        <button type="button" id="overmask-cancel" data-i18n="cancel"></button>
+      </div>
+      <p id="overmask-msg" class="msg" role="status"></p>
+    </div>
+
+    <div id="miss-block" hidden>
+      <h4 data-i18n="misses_title"></h4>
+      <ul id="miss-list" class="items"></ul>
+    </div>
+    <div id="overmask-block" hidden>
+      <h4 data-i18n="overmasks_title"></h4>
+      <ul id="overmask-list" class="items"></ul>
+    </div>
+  </section>
+
+  <section id="step3" class="step" aria-labelledby="step3-title" hidden>
+    <h2 id="step3-title" data-i18n="step3_title"></h2>
+    <p class="hint" data-i18n="step3_hint"></p>
+    <label for="answer-input" class="label" data-i18n="answer_label"></label>
+    <textarea id="answer-input" rows="7" spellcheck="false"></textarea>
+    <div class="row">
+      <button type="button" id="reveal-btn" class="primary" data-i18n="reveal_btn"></button>
+    </div>
+    <div id="reveal-msg" class="msgs" role="status"></div>
+    <div id="revealed-block" hidden>
+      <p class="label" id="revealed-label" data-i18n="revealed_label"></p>
+      <p class="hint" data-i18n="revealed_hint"></p>
+      <div id="revealed-text" class="textbox" aria-labelledby="revealed-label"></div>
+      <p id="unresolved-msg" class="msg msg-warn" hidden></p>
+    </div>
+  </section>
+
+  <section id="review" class="step" aria-labelledby="review-title" hidden>
+    <h2 id="review-title" data-i18n="review_title"></h2>
+    <fieldset class="useful">
+      <legend data-i18n="useful_q"></legend>
+      <label class="tick"><input type="radio" name="useful" id="useful-ja" value="ja"> <span data-i18n="useful_ja"></span></label>
+      <label class="tick"><input type="radio" name="useful" id="useful-deels" value="deels"> <span data-i18n="useful_deels"></span></label>
+      <label class="tick"><input type="radio" name="useful" id="useful-nee" value="nee"> <span data-i18n="useful_nee"></span></label>
+    </fieldset>
+    <label class="tick"><input type="checkbox" id="checked-all"> <span data-i18n="checked_all"></span></label>
+    <p class="hint" data-i18n="checked_all_hint"></p>
+    <label for="note-input" class="label" data-i18n="note_label"></label>
+    <textarea id="note-input" rows="3" spellcheck="false"></textarea>
+    <p class="hint" data-i18n="note_hint"></p>
+    <p class="hint hint-warn" data-i18n="note_privacy"></p>
+    <div class="row">
+      <button type="button" id="save-checks-btn" class="primary" data-i18n="save_checks"></button>
+    </div>
+    <p id="save-status" class="status" role="status"></p>
+    <div id="note-block" hidden>
+      <h4 data-i18n="notes_title"></h4>
+      <ul id="note-list" class="items"></ul>
+    </div>
+  </section>
+
+  <section id="session" class="step step-quiet" hidden>
+    <div class="row">
+      <button type="button" id="new-question-btn" data-i18n="new_question" hidden></button>
+      <button type="button" id="reset-btn" data-i18n="reset_btn"></button>
+    </div>
+    <div id="reset-confirm" class="panel" hidden>
+      <p data-i18n="reset_confirm"></p>
+      <div class="row">
+        <button type="button" id="reset-yes" class="danger" data-i18n="reset_yes"></button>
+        <button type="button" id="reset-no" data-i18n="cancel"></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="logbook" class="step" aria-labelledby="logbook-title">
+    <h2 id="logbook-title" data-i18n="logbook_title"></h2>
+    <p data-i18n="retention"></p>
+    <div class="row">
+      <button type="button" id="bundle-preview-btn" data-i18n="bundle_btn"></button>
+    </div>
+    <div id="preview" hidden>
+      <p id="preview-honest" class="honest" data-i18n="preview_honest"></p>
+      <p class="hint" data-i18n="include_off_hint"></p>
+      <p id="preview-empty" class="hint" data-i18n="preview_empty" hidden></p>
+      <ol id="preview-list" class="preview-list"></ol>
+      <div class="row">
+        <button type="button" id="bundle-save-btn" class="primary" data-i18n="save_zip"></button>
+      </div>
+    </div>
+    <p id="bundle-status" class="msg" role="status"></p>
+  </section>
+</main>
+
+<footer class="foot">
+  <p id="footer-text" data-i18n="footer"></p>
+  <p id="version" class="hint"></p>
+</footer>
+</body>
+</html>

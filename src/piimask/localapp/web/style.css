@@ -1,0 +1,274 @@
+/* The try-it page. System fonts only; no outside resources. */
+
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #4a4a4a;
+  --panel: #f4f4f5;
+  --line: #c8c8cc;
+  --accent: #1d4ed8;
+  --accent-fg: #ffffff;
+  --focus: #b45309;
+  --bad-bg: #fee2e2;
+  --bad-fg: #7f1d1d;
+  --warn-bg: #fef3c7;
+  --warn-fg: #713f12;
+  --ok-bg: #dcfce7;
+  --ok-fg: #14532d;
+  --k-person-bg: #dbeafe; --k-person-fg: #1e3a8a;
+  --k-company-bg: #ede9fe; --k-company-fg: #4c1d95;
+  --k-email-bg: #ccfbf1; --k-email-fg: #134e4a;
+  --k-phone-bg: #fef3c7; --k-phone-fg: #78350f;
+  --k-iban-bg: #fce7f3; --k-iban-fg: #831843;
+  --k-vat-bg: #e0f2fe; --k-vat-fg: #0c4a6e;
+  --k-address-bg: #ffedd5; --k-address-fg: #7c2d12;
+  --k-other-bg: #e5e7eb; --k-other-fg: #111827;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141416;
+    --fg: #ececee;
+    --muted: #b4b4bb;
+    --panel: #1f1f23;
+    --line: #4a4a52;
+    --accent: #93b4ff;
+    --accent-fg: #0b1020;
+    --focus: #fbbf24;
+    --bad-bg: #4c1414;
+    --bad-fg: #fecaca;
+    --warn-bg: #45320a;
+    --warn-fg: #fde68a;
+    --ok-bg: #0f3a22;
+    --ok-fg: #bbf7d0;
+    --k-person-bg: #1e3a8a; --k-person-fg: #dbeafe;
+    --k-company-bg: #4c1d95; --k-company-fg: #ede9fe;
+    --k-email-bg: #134e4a; --k-email-fg: #ccfbf1;
+    --k-phone-bg: #78350f; --k-phone-fg: #fef3c7;
+    --k-iban-bg: #831843; --k-iban-fg: #fce7f3;
+    --k-vat-bg: #0c4a6e; --k-vat-fg: #e0f2fe;
+    --k-address-bg: #7c2d12; --k-address-fg: #ffedd5;
+    --k-other-bg: #374151; --k-other-fg: #f3f4f6;
+  }
+}
+
+[hidden] { display: none !important; }
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0 auto;
+  max-width: 52rem;
+  padding: 1rem 1rem 2rem;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+h1 { font-size: 1.5rem; margin: 0; }
+h2 { font-size: 1.2rem; margin: 0 0 0.5rem; }
+h3 { font-size: 1.05rem; margin: 1.25rem 0 0.25rem; }
+h4 { font-size: 1rem; margin: 1rem 0 0.25rem; }
+p { margin: 0.5rem 0; }
+
+.top-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.lang { display: flex; gap: 0.25rem; }
+.lang button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: var(--accent);
+}
+
+.honest {
+  background: var(--warn-bg);
+  color: var(--warn-fg);
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+}
+
+.notice {
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+.notice-bad { background: var(--bad-bg); color: var(--bad-fg); border-color: var(--bad-fg); }
+
+.step {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+.step-quiet { border-style: dashed; }
+
+.hint, .status { color: var(--muted); font-size: 0.95rem; }
+.status:empty { margin: 0; }
+.hint-warn { color: var(--warn-fg); }
+.nowrap { white-space: nowrap; }
+.flags .nowrap + .nowrap::before { content: "· "; }
+.label { display: block; font-weight: 600; margin: 0.5rem 0 0.25rem; }
+.label-inline { font-weight: 600; }
+
+textarea, select {
+  width: 100%;
+  font: inherit;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+textarea[readonly] { background: var(--panel); }
+select { width: auto; max-width: 100%; }
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+button {
+  font: inherit;
+  color: var(--fg);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  min-height: 2.5rem;
+}
+button.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+button.danger { background: var(--bad-bg); color: var(--bad-fg); border-color: var(--bad-fg); }
+button.small { min-height: 2rem; padding: 0.2rem 0.6rem; font-size: 0.9rem; }
+button:disabled { opacity: 0.6; cursor: not-allowed; }
+input:disabled { opacity: 0.45; cursor: not-allowed; }
+.tick:has(input:disabled) { color: var(--muted); cursor: not-allowed; }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.textbox {
+  white-space: pre-wrap;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  min-height: 3rem;
+  line-height: 1.9;
+}
+.selectable { user-select: text; -webkit-user-select: text; }
+
+.hl {
+  border-radius: 4px;
+  padding: 0.05rem 0.15rem;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+/* The kind is always written out, never shown by colour alone. The label
+   rides on the piece's last word (.hl-tail), which never wraps; as an
+   inline-block it never breaks inside ("e-mail") and a line-through on the
+   piece does not run through it. */
+.hl-tail { white-space: nowrap; }
+.hl-tail[data-label]::after {
+  content: attr(data-label);
+  display: inline-block;
+  margin-left: 0.3em;
+  white-space: nowrap;
+  text-decoration: none;
+  font-size: 0.75em;
+  font-weight: 600;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.hl.clickable { cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+
+.k-PERSON { background: var(--k-person-bg); color: var(--k-person-fg); }
+.k-COMPANY { background: var(--k-company-bg); color: var(--k-company-fg); }
+.k-EMAIL { background: var(--k-email-bg); color: var(--k-email-fg); }
+.k-PHONE { background: var(--k-phone-bg); color: var(--k-phone-fg); }
+.k-IBAN { background: var(--k-iban-bg); color: var(--k-iban-fg); }
+.k-VAT { background: var(--k-vat-bg); color: var(--k-vat-fg); }
+.k-ADDRESS { background: var(--k-address-bg); color: var(--k-address-fg); }
+.k-OTHER { background: var(--k-other-bg); color: var(--k-other-fg); }
+.hl.freed { text-decoration: line-through; }
+.hl.miss { background: var(--bad-bg); color: var(--bad-fg); outline: 2px dashed var(--bad-fg); outline-offset: -1px; }
+.hl.restored { background: var(--ok-bg); color: var(--ok-fg); }
+.hl.wrong { background: var(--bad-bg); color: var(--bad-fg); text-decoration: line-through; }
+
+.legend { margin: 0.5rem 0; }
+.legend ul { list-style: none; padding: 0; margin: 0.25rem 0; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  margin: 0.5rem 0;
+}
+
+.tick { display: flex; align-items: flex-start; gap: 0.4rem; margin: 0.35rem 0; cursor: pointer; }
+.tick input { margin-top: 0.3rem; width: 1.1rem; height: 1.1rem; flex: none; }
+
+fieldset.useful { border: 1px solid var(--line); border-radius: 6px; margin: 0.5rem 0; padding: 0.4rem 0.8rem; }
+fieldset.useful legend { font-weight: 600; padding: 0 0.25rem; }
+
+.msg { margin: 0.4rem 0; }
+.msgs .msg, .msg-warn { background: var(--warn-bg); color: var(--warn-fg); padding: 0.5rem 0.7rem; border-radius: 6px; }
+.msg:empty { display: none; }
+
+.items { list-style: none; padding-left: 0; margin: 0.25rem 0; }
+.items li {
+  margin: 0.25rem 0;
+  padding-left: 0.6rem;
+  border-left: 3px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.item-text { white-space: pre-wrap; }
+
+.preview-list { list-style: none; padding-left: 0; }
+.preview-item { margin: 0.75rem 0; padding: 0.6rem 0.8rem; border: 1px solid var(--line); border-radius: 6px; }
+.preview-refused { border-style: dashed; }
+.preview-refused p { margin: 0; }
+.preview-head { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.preview-text {
+  white-space: pre-wrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9rem;
+  background: var(--panel);
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 0.4rem 0;
+  overflow-wrap: anywhere;
+}
+.badge { background: var(--ok-bg); color: var(--ok-fg); border-radius: 999px; padding: 0 0.5rem; font-size: 0.85rem; }
+
+.foot { margin-top: 2rem; color: var(--muted); font-size: 0.9rem; }
+
+@media (max-width: 480px) {
+  body { padding: 0.75rem 0.75rem 1.5rem; }
+  .step { padding: 0.75rem; }
+  .row button { flex: 1 1 auto; }
+  .preview-item { padding: 0.5rem 0.6rem; }
+  .preview-text { padding: 0.4rem; }
+}
